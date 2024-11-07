@@ -146,7 +146,7 @@ bool deleteBST(Node **T, int deleteKey) //T = root node
         s.push(p);
 
         // Find min key from nodes in right subtree
-        if(p->left->height < p->right->height || (p->left->height == p->right->height) && (p->left->size < p->right->size))
+        if(p->left->height < p->right->height || ((p->left->height == p->right->height) && (p->left->size < p->right->size)))
         {
             p = p->right;
             while(p->left != NULL)
