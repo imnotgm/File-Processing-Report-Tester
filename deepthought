@@ -1,0 +1,304 @@
+= Host-specific information ====================================================
+$> hostname; uname -msr
+Gms-MacBook-Pro.local
+Darwin 24.1.0 arm64
+
+$> date
+Fri Nov  8 03:38:43 KST 2024
+
+$> clang --version
+Apple clang version 16.0.0 (clang-1600.0.26.4)
+Target: arm64-apple-darwin24.1.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+$> clang++ --version
+Apple clang version 16.0.0 (clang-1600.0.26.4)
+Target: arm64-apple-darwin24.1.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+
+= Compiling ====================================================================
+$> clang++ -Wall -Wextra -Werror -g3 .//main.cpp -o user_exe
+.//main.cpp:149:88: error: '&&' within '||' [-Werror,-Wlogical-op-parentheses]
+  149 |         if(p->left->height < p->right->height || (p->left->height == p->right->height) && (p->left->size < p->right->size))
+      |                                               ~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.//main.cpp:149:88: note: place parentheses around the '&&' expression to silence this warning
+  149 |         if(p->left->height < p->right->height || (p->left->height == p->right->height) && (p->left->size < p->right->size))
+      |                                                                                        ^                                  
+      |                                                  (                                                                        )
+1 error generated.
+
+= TEST CASE - simple00 =======================================================
+$> ./user_exe < simple00
+$> diff -u user_output_test_simple00 output_test_simple00
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple00	2024-11-08 03:38:53$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple00	2024-11-08 03:38:53$
+@@ -1,42 +1 @@$
+-< 25 >$
+-< 25 < 500 >>$
+-i 25: The key already exists$
+-< 25 << 33 > 500 >>$
+-< 25 << 33 < 49 >> 500 >>$
+-<< 17 > 25 << 33 < 49 >> 500 >>$
+-<< 17 > 25 << 33 < 49 < 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 < 49 < 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 < 49 << 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 << 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 <<< 66 > 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 < 441 >>>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 < 81 >> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 >> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 << 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 << 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >>> 441 < 999 >>>$
+-d 25: The key does not exist$
+-<<< 12 > 17 < 19 >> 29 <<< 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 <<< 39 < 44 >> 50 <<< 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<< 12 < 19 >> 29 <<< 39 < 44 >> 50 <<< 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<< 12 < 19 >> 29 <<< 39 < 44 >> 50 << 66 < 81 < 100 >>> 105 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 39 <<< 44 > 50 << 66 < 81 < 100 >>> 105 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 39 <<< 44 > 50 << 66 < 81 >> 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 66 < 81 >> 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 81 > 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 81 > 100 < 390 >>> 441 < 999 >>>$
+-<< 12 < 19 >> 50 <<< 81 > 100 < 390 >> 441 < 999 >>>$
+-<< 12 > 50 <<< 81 > 100 < 390 >> 441 < 999 >>>$
+-<< 12 > 50 <<< 81 > 100 > 390 < 999 >>>$
+-<< 12 > 50 << 81 > 100 < 999 >>>$
+-< 50 << 81 > 100 < 999 >>>$
+-< 50 < 100 < 999 >>>$
+-< 100 < 999 >>$
+-< 999 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - simple01 =======================================================
+$> ./user_exe < simple01
+$> diff -u user_output_test_simple01 output_test_simple01
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple01	2024-11-08 03:38:54$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple01	2024-11-08 03:38:54$
+@@ -1,20 +1 @@$
+-< 1 >$
+-< 1 < 2 >>$
+-< 1 < 2 < 3 >>>$
+-< 1 < 2 < 3 < 4 >>>>$
+-< 1 < 2 < 3 < 4 < 5 >>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 >>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 >>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 >>>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 >>>>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>>>$
+-< 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>>$
+-< 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>$
+-< 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>$
+-< 5 < 6 < 7 < 8 < 9 < 10 >>>>>>$
+-< 6 < 7 < 8 < 9 < 10 >>>>>$
+-< 7 < 8 < 9 < 10 >>>>$
+-< 8 < 9 < 10 >>>$
+-< 9 < 10 >>$
+-< 10 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - simple02 =======================================================
+$> ./user_exe < simple02
+$> diff -u user_output_test_simple02 output_test_simple02
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple02	2024-11-08 03:38:55$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple02	2024-11-08 03:38:55$
+@@ -1,20 +1 @@$
+-< 10 >$
+-<< 9 > 10 >$
+-<<< 8 > 9 > 10 >$
+-<<<< 7 > 8 > 9 > 10 >$
+-<<<<< 6 > 7 > 8 > 9 > 10 >$
+-<<<<<< 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<< 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<< 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<< 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<<< 1 > 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<< 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<< 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<< 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<< 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<< 6 > 7 > 8 > 9 > 10 >$
+-<<<< 7 > 8 > 9 > 10 >$
+-<<< 8 > 9 > 10 >$
+-<< 9 > 10 >$
+-< 10 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - simple00 =======================================================
+$> ./user_exe < simple00
+$> diff -u user_output_test_simple00 output_test_simple00
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple00	2024-11-08 03:38:56$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple00	2024-11-08 03:38:56$
+@@ -1,42 +1 @@$
+-< 25 >$
+-< 25 < 500 >>$
+-i 25: The key already exists$
+-< 25 << 33 > 500 >>$
+-< 25 << 33 < 49 >> 500 >>$
+-<< 17 > 25 << 33 < 49 >> 500 >>$
+-<< 17 > 25 << 33 < 49 < 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 < 49 < 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 < 49 << 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 << 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 <<< 66 > 105 > 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 > 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 > 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 >>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 >> 403 < 441 >>>> 500 >>$
+-<< 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 > 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<< 66 < 81 >> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 >> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 >>$
+-<<< 12 > 17 < 19 >> 25 <<< 29 > 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 << 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 < 441 >>>> 500 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 << 33 << 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >>> 441 < 999 >>>$
+-d 25: The key does not exist$
+-<<< 12 > 17 < 19 >> 29 <<< 39 < 44 >> 49 <<<< 50 > 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<<< 12 > 17 < 19 >> 29 <<< 39 < 44 >> 50 <<< 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<< 12 < 19 >> 29 <<< 39 < 44 >> 50 <<< 66 < 81 < 100 >>> 105 < 305 < 390 >>> 403 >> 441 < 999 >>>$
+-<< 12 < 19 >> 29 <<< 39 < 44 >> 50 << 66 < 81 < 100 >>> 105 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 39 <<< 44 > 50 << 66 < 81 < 100 >>> 105 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 39 <<< 44 > 50 << 66 < 81 >> 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 66 < 81 >> 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 81 > 100 < 305 < 390 >>>> 441 < 999 >>>$
+-<< 12 < 19 >> 44 << 50 << 81 > 100 < 390 >>> 441 < 999 >>>$
+-<< 12 < 19 >> 50 <<< 81 > 100 < 390 >> 441 < 999 >>>$
+-<< 12 > 50 <<< 81 > 100 < 390 >> 441 < 999 >>>$
+-<< 12 > 50 <<< 81 > 100 > 390 < 999 >>>$
+-<< 12 > 50 << 81 > 100 < 999 >>>$
+-< 50 << 81 > 100 < 999 >>>$
+-< 50 < 100 < 999 >>>$
+-< 100 < 999 >>$
+-< 999 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - simple01 =======================================================
+$> ./user_exe < simple01
+$> diff -u user_output_test_simple01 output_test_simple01
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple01	2024-11-08 03:38:58$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple01	2024-11-08 03:38:58$
+@@ -1,20 +1 @@$
+-< 1 >$
+-< 1 < 2 >>$
+-< 1 < 2 < 3 >>>$
+-< 1 < 2 < 3 < 4 >>>>$
+-< 1 < 2 < 3 < 4 < 5 >>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 >>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 >>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 >>>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 >>>>>>>>>$
+-< 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>>>$
+-< 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>>$
+-< 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>>$
+-< 4 < 5 < 6 < 7 < 8 < 9 < 10 >>>>>>>$
+-< 5 < 6 < 7 < 8 < 9 < 10 >>>>>>$
+-< 6 < 7 < 8 < 9 < 10 >>>>>$
+-< 7 < 8 < 9 < 10 >>>>$
+-< 8 < 9 < 10 >>>$
+-< 9 < 10 >>$
+-< 10 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - simple02 =======================================================
+$> ./user_exe < simple02
+$> diff -u user_output_test_simple02 output_test_simple02
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_simple02	2024-11-08 03:38:59$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_simple02	2024-11-08 03:38:59$
+@@ -1,20 +1 @@$
+-< 10 >$
+-<< 9 > 10 >$
+-<<< 8 > 9 > 10 >$
+-<<<< 7 > 8 > 9 > 10 >$
+-<<<<< 6 > 7 > 8 > 9 > 10 >$
+-<<<<<< 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<< 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<< 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<< 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<<< 1 > 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<<< 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<<< 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<<< 4 > 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<<< 5 > 6 > 7 > 8 > 9 > 10 >$
+-<<<<< 6 > 7 > 8 > 9 > 10 >$
+-<<<< 7 > 8 > 9 > 10 >$
+-<<< 8 > 9 > 10 >$
+-<< 9 > 10 >$
+-< 10 >$
+-$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - random00 =======================================================
+$> ./user_exe < random00
+$> diff -u user_output_test_random00 output_test_random00
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_random00	2024-11-08 03:39:03$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_random00	2024-11-08 03:39:03$
+@@ -0,0 +1 @@$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - random01 =======================================================
+$> ./user_exe < random01
+$> diff -u user_output_test_random01 output_test_random01
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_random01	2024-11-08 03:39:04$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_random01	2024-11-08 03:39:04$
+@@ -0,0 +1 @@$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - random02 =======================================================
+$> ./user_exe < random02
+$> diff -u user_output_test_random02 output_test_random02
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_random02	2024-11-08 03:39:06$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_random02	2024-11-08 03:39:06$
+@@ -0,0 +1 @@$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - random03 =======================================================
+$> ./user_exe < random03
+$> diff -u user_output_test_random03 output_test_random03
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_random03	2024-11-08 03:39:07$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_random03	2024-11-08 03:39:07$
+@@ -0,0 +1 @@$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
+
+= TEST CASE - random04 =======================================================
+$> ./user_exe < random04
+$> diff -u user_output_test_random04 output_test_random04
+--- /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//user_output_test_random04	2024-11-08 03:39:08$
++++ /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/output//output_test_random04	2024-11-08 03:39:08$
+@@ -0,0 +1 @@$
++/Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/src/diff_test.sh: line 75: /Users/gmim/Desktop/2024-3-2/FileProcessing/assignment/File-Processing-Report-Tester/test/test_exe: No such file or directory$
+
+Diff KO :(
