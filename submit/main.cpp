@@ -145,8 +145,8 @@ bool deleteBST(Node **T, int deleteKey) //T = root node
         Node *tmp = p;
         s.push(p);
 
-        // Find min key from nodes in right subtree
-        if(p->left->height < p->right->height || ((p->left->height == p->right->height) && (p->left->size < p->right->size)))
+        // Find min key from nodes in the right subtree
+        if(p->left->height < p->right->height || (p->left->height == p->right->height && p->left->size < p->right->size))
         {
             p = p->right;
             while(p->left != NULL)
@@ -155,7 +155,7 @@ bool deleteBST(Node **T, int deleteKey) //T = root node
                 p = p->left;
             }
         }
-        // Find max key from nodes in left subtree
+        // Find max key from nodes in the left subtree
         else
         {
             p = p->left;
